@@ -1,133 +1,125 @@
-def player_inventory(players):
-    print("=== Player Inventory System ===")
-    inventory_value = 0
-    item_count = 0
-    categories = {}
+import sys
 
-    for keys, values in players["alice"].items():
-        inventory_value += (values.get("value") * values.get("quantity"))
-        item_count += values.get("quantity")
-
-        item_type = values.get("type")
-        categories[item_type] = categories.get(item_type, 0) + values.get("quantity")
-
-        print(f"{keys} ({values.get('type')}, {values.get('rarity')}): "
-              f"{values.get('quantity')}x @ {values.get('value')} gold "
-              f"each = {values.get('value') * values.get('quantity')} gold")
-
-    print(f"\nInventory value: {inventory_value} gold"
-          f"\nItem count: {item_count} items")
-
-    print("Categories: ", end="")
-    last = False
-    for k, v in categories.items():
-        if last is True:
-            print(", ", end="")
-        print(f"{k}({v})", end="")
-        last = True
-    print()
+def find_index(str):
+    i = 0
+    for c in str:
+        i += 1
+        if c == ':':
+            return i
+        
+def make_dict_from_list(inventories_list):
+    my_dict = {}
+    for str in inventories_list:
+        i = find_index(str)
+        key = str[:i-1]
+        value = int(str[i:])
+        my_dict[key] = value
+    return my_dict
 
 
-def players_transaction(players):
-    print("\n=== Transaction: Alice gives Bob 2 potions ===")
-
-    alice_potions_qty = players["alice"]["potion"].get("quantity")
-    bob_potions_qty = players["bob"]["potion"].get("quantity")
-
-    if alice_potions_qty >= 2:
-        players["alice"]["potion"].update(quantity=alice_potions_qty - 2)
-        players["bob"]["potion"].update(quantity=bob_potions_qty + 2)
-        print("Transaction successful!")
-    else:
-        print("Transaction failed!")
-
-    print("\n=== Updated Inventories ===")
-    print(f"Alice potions: {players['alice']['potion']['quantity']}")
-    print(f"Bob potions: {players['bob']['potion']['quantity']}")
+def inventory_sys_analysis(inventories):
+    print("=== Inventory System Analysis ===")
+    total_items = 0
+    for item, qty in inventories.items():
+        total_items += qty
+    print(f"Total items in inventory: {total_items}")
+    print(f"Unique item types: {len(inventories)}")
+    return total_items
 
 
-def count_investory_items(inventory):
-    inventory_value = 0
-    item_count = 0
-
-    for keys, values in inventory.items():
-        inventory_value += (values.get("value") * values.get("quantity"))
-        item_count += values.get("quantity")
-
-    return inventory_value, item_count
+def current_inventory(inventories, total_items):
+    inventories = dict(sorted(inventories.items(), key=lambda item:item[1], reverse=True))
+    print("\n=== Current Inventory ===")
+    for item, qty in inventories.items():
+        per = (qty / total_items) * 100
+        print(f"{item}: {qty} units ({per:.2f}%)")
 
 
-def inventory_analytics(players):
-    print("\n=== Inventory Analytics ===")
+def inventory_statics(inventories, total_items):
+    print("\n=== Inventory Statistics ===")
+    most = ""
+    least = ""
+    most_qty = 0
+    least_qty = total_items
+    for item, qty in inventories.items():
+        if qty > most_qty:
+            most = item
+            most_qty = qty
+        if qty <= least_qty:
+            least = item
+            least_qty = qty
 
-    most_value = 0
-    most_value_player = ""
+    print(f"Least abundant: {least} ({least_qty} unit)")
+    print(f"Most abundant: {most} ({most_qty} units)")
 
-    most_items = 0
-    most_items_player = ""
 
-    rare_items = []
+def lookup_in_dict(inventories, to_find):
+    for item, qty in inventories.items():
+        if item == to_find:
+            return f"'{to_find}' in inventory: {True}"
+    return f"'{to_find}' in inventory: {True}"
 
-    for player_name, inventory in players.items():
-        player_value, player_items = count_investory_items(inventory)
+def management_sugg(inventories):
+    print("\n=== Management Suggestions ===")
+    restock_needed = []
+    for item, qty in inventories.items():
+        if qty < 2:
+            restock_needed += [item]
+    print(f"Restock needed: {restock_needed}")
 
-        if player_value > most_value:
-            most_value = player_value
-            most_value_player = player_name
 
-        if player_items > most_items:
-            most_items = player_items
-            most_items_player = player_name
+def dict_properties(inventories):
+    print("\n=== Dictionary Properties Demo ===")
+    dict_keys = []
+    dict_values = []
+    for item, qty in inventories.items():
+        dict_keys += [item]
+        dict_values += [qty]
+    print(f"Dictionary keys: {dict_keys}\n"
+          f"Dictionary values: {dict_values}")
+    print(f"Sample lookup - {lookup_in_dict(inventories, 'sword')}")
 
-        for item_name, info in inventory.items():
-            if info.get("rarity") == "rare":
-                if item_name not in rare_items:
-                    rare_items.append(item_name)
 
-    print(f"Most valuable player: {most_value_player.capitalize()}"
-          f"({most_value} gold)")
-    print(f"Most items: {most_items_player.capitalize()} ({most_items} items)")
+# def sort_dict(inventories):
+#     sort_dict = {}
+#     i = 0
+#     for item, qty in inventories.items():
+#         for item, qty in inventories.items():
+#             if qty >= i:
+#                 sort_dict[item] = qty
 
-    print("Rarest items: ", end="")
-    first = True
-    for item in rare_items:
-        if first is False:
-            print(", ", end="")
-        print(item, end="")
-        first = False
-    print()
-
+def item_categories(inventories):
+    print("\n=== Item Categories ===")
+    Moderate_dict = {}
+    Scarce_dict = {}
+    for item, qty in inventories.items():
+        if qty >= 5:
+            Moderate_dict[item] = qty
+        else:
+            Scarce_dict[item] = qty
+        
+    print(f"Moderate: {Moderate_dict}")
+    print(f"Scarce: {Scarce_dict}")
+        
 
 def main():
-    alice_inventory = {
-        "sword": {
-            "type": "weapon", "rarity": "rare",
-            "quantity": 1, "value": 500
-        },
-        "potion": {
-            "type": "consumable", "rarity": "common",
-            "quantity": 5, "value": 50
-        },
-        "shield": {
-            "type": "armor", "rarity": "uncommon",
-            "quantity": 1, "value": 200
-        }
-    }
-    bob_inventory = {
-        "potion": {
-            "type": "consumable", "rarity": "common",
-            "quantity": 0, "value": 50
-        },
-    }
-    players = {
-        "alice": alice_inventory,
-        "bob": bob_inventory
-    }
+    tmp_inventories = sys.argv[1:]
+    try:
+        inventories = make_dict_from_list(tmp_inventories)
+        total_items = inventory_sys_analysis(inventories)
+        current_inventory(inventories, total_items)
+        inventory_statics(inventories, total_items)
+        item_categories(inventories)
+        management_sugg(inventories)
+        dict_properties(inventories)
+    except Exception:
+        print(Exception)
 
-    player_inventory(players)
-    players_transaction(players)
-    inventory_analytics(players)
+        
+            
+            
+                
 
 
-if __name__ == "__main__":
-    main()
+
+main()
