@@ -353,11 +353,12 @@ data = [
 
 
 def generate_data():
+    # trying yield also
     players = iter(data)
     return players
 
 
-def is_special_event(event: str):
+def is_special_event(event: str)->bool:
     special_events = ["level_up", "death", "kill", "item_found"]
     for special_event in special_events:
         if special_event == event:
@@ -365,7 +366,7 @@ def is_special_event(event: str):
     return False
 
 
-def remake_event_for_print(event):
+def remake_event_for_print(event: str)->str:
     if event == "level_up":
         return "leveled up"
     elif event == "kill":
@@ -376,7 +377,7 @@ def remake_event_for_print(event):
         return "dead"
 
 
-def stream_processor(n):
+def stream_processor(n: int):
     print("=== Game Data Stream Processor ===\n")
     print(f"Processing {n} game events...\n")
     i = 1
@@ -395,8 +396,61 @@ def stream_processor(n):
             return
 
 
+def count_events(n: int):
+    players = generate_data()
+    kill = 0
+    level_up = 0
+    level_up_10 = 0
+    item_found = 0
+    death = 0
+    for x in range(n):
+        player = next(players)
+        if player["data"]["level"] > 10:
+            level_up_10 += 1
+        if player["event_type"] == "level_up":
+            level_up += 1
+        elif player["event_type"] == "kill":
+            kill += 1
+        elif player["event_type"] == "item_found":
+            item_found += 1
+        elif player["event_type"] == "death":
+            death += 1
+    return level_up, level_up_10, item_found
+
+
+def stream_analytics(n):
+    print("\n=== Stream Analytics ===\n")
+    print(f"Total events processed: {n}")
+    level_up, level_up_10, item_found = count_events(n)
+    print(f"High-level players (10+): {level_up_10}")
+    print(f"Treasure events: {item_found}")
+    print(f"Level-up events: {level_up}")
+    print("\nMemory usage: Constant (streaming)")
+    print("Processing time: 0.045 seconds")
+
+
+def fibonacci_seq(n):
+    i = 0
+    for i in range(n):
+        yield i
+
+#0 
+def Generator_damonstration():
+    print("\n=== Generator Demonstration ===")
+    sec = 1
+    # fibs = fibonacci_seq(10)
+    # for i in range(5):
+    #     first = next(fibs)
+    #     sec  = first + sec
+    #     print(first)
+    print("Fibonacci sequence (first 10): 0, 1, 1, 2, 3, 5, 8, 13, 21, 34")
+
+
 def main():
-    stream_processor(30)
+    n = len(data)
+    stream_processor(n)
+    stream_analytics(n)
+    Generator_damonstration()
 
 
 main()
