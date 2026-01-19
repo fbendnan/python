@@ -1,17 +1,19 @@
 import sys
 
+
 def find_index(str):
     i = 0
     for c in str:
         i += 1
-        if c == ':':
+        if c == ":":
             return i
-        
+
+
 def make_dict_from_list(inventories_list):
     my_dict = {}
     for str in inventories_list:
         i = find_index(str)
-        key = str[:i-1]
+        key = str[: i - 1]
         value = int(str[i:])
         my_dict[key] = value
     return my_dict
@@ -28,7 +30,9 @@ def inventory_sys_analysis(inventories):
 
 
 def current_inventory(inventories, total_items):
-    inventories = dict(sorted(inventories.items(), key=lambda item:item[1], reverse=True))
+    inventories = dict(
+        sorted(inventories.items(), key=lambda item: item[1], reverse=True)
+    )
     print("\n=== Current Inventory ===")
     for item, qty in inventories.items():
         per = (qty / total_items) * 100
@@ -57,7 +61,8 @@ def lookup_in_dict(inventories, to_find):
     for item, qty in inventories.items():
         if item == to_find:
             return f"'{to_find}' in inventory: {True}"
-    return f"'{to_find}' in inventory: {True}"
+    return f"'{to_find}' in inventory: {False}"
+
 
 def management_sugg(inventories):
     print("\n=== Management Suggestions ===")
@@ -75,9 +80,10 @@ def dict_properties(inventories):
     for item, qty in inventories.items():
         dict_keys += [item]
         dict_values += [qty]
-    print(f"Dictionary keys: {dict_keys}\n"
-          f"Dictionary values: {dict_values}")
-    print(f"Sample lookup - {lookup_in_dict(inventories, 'sword')}")
+    print(f"Dictionary keys: {dict_keys}")
+    print(f"Dictionary values: {dict_values}")
+    sword_lookup = lookup_in_dict(inventories, 'sword')
+    print(f"Sample lookup - {sword_lookup}")
 
 
 # def sort_dict(inventories):
@@ -88,6 +94,7 @@ def dict_properties(inventories):
 #             if qty >= i:
 #                 sort_dict[item] = qty
 
+
 def item_categories(inventories):
     print("\n=== Item Categories ===")
     Moderate_dict = {}
@@ -97,29 +104,24 @@ def item_categories(inventories):
             Moderate_dict[item] = qty
         else:
             Scarce_dict[item] = qty
-        
+
     print(f"Moderate: {Moderate_dict}")
     print(f"Scarce: {Scarce_dict}")
-        
+
 
 def main():
     tmp_inventories = sys.argv[1:]
-    try:
-        inventories = make_dict_from_list(tmp_inventories)
-        total_items = inventory_sys_analysis(inventories)
-        current_inventory(inventories, total_items)
-        inventory_statics(inventories, total_items)
-        item_categories(inventories)
-        management_sugg(inventories)
-        dict_properties(inventories)
-    except Exception:
-        print(Exception)
-
-        
-            
-            
-                
-
+    if len(tmp_inventories) != 0:
+        try:
+            inventories = make_dict_from_list(tmp_inventories)
+            total_items = inventory_sys_analysis(inventories)
+            current_inventory(inventories, total_items)
+            inventory_statics(inventories, total_items)
+            item_categories(inventories)
+            management_sugg(inventories)
+            dict_properties(inventories)
+        except Exception:
+            print(Exception)
 
 
 main()
