@@ -353,12 +353,11 @@ data = [
 
 
 def generate_data():
-    # trying yield also
     players = iter(data)
     return players
 
 
-def is_special_event(event: str)->bool:
+def is_special_event(event: str) -> bool:
     special_events = ["level_up", "death", "kill", "item_found"]
     for special_event in special_events:
         if special_event == event:
@@ -366,7 +365,7 @@ def is_special_event(event: str)->bool:
     return False
 
 
-def remake_event_for_print(event: str)->str:
+def remake_event_for_print(event: str) -> str:
     if event == "level_up":
         return "leveled up"
     elif event == "kill":
@@ -429,21 +428,60 @@ def stream_analytics(n):
     print("Processing time: 0.045 seconds")
 
 
-def fibonacci_seq(n):
-    i = 0
-    for i in range(n):
-        yield i
+def fibonacci_generator(nb):
+    first = 0
+    sec = 1
+    for i in range(nb):
+        yield first
+        tmp = first
+        first = sec
+        sec = tmp + sec
 
-#0 
+
+def print_fibonacci_seq(nb):
+    fibs = fibonacci_generator(nb)
+    print("Fibonacci sequence (first 10): ", end="")
+    for i in range(nb):
+        fib = next(fibs)
+        if i < nb - 1:
+            print(f"{fib}", end=", ")
+        else:
+            print(f"{fib}", end="")
+
+
+def is_prime_number(num):
+    i = 2
+    while i <= (num / 2):
+        if num % i == 0:
+            return False
+        i += 1
+    return True
+
+
+def prime_nb_generator():
+    i = 2
+    while True:
+        if is_prime_number(i):
+            yield i
+        i += 1
+
+
+def print_prime_numbers(nb):
+    primes_nb = prime_nb_generator()
+    print(f"Prime numbers (first {nb}): ", end="")
+    for i in range(nb):
+        prime_nb = next(primes_nb)
+        if i < nb - 1:
+            print(prime_nb, end=", ")
+        else:
+            print(prime_nb, end="")
+
+
 def Generator_damonstration():
     print("\n=== Generator Demonstration ===")
-    sec = 1
-    # fibs = fibonacci_seq(10)
-    # for i in range(5):
-    #     first = next(fibs)
-    #     sec  = first + sec
-    #     print(first)
-    print("Fibonacci sequence (first 10): 0, 1, 1, 2, 3, 5, 8, 13, 21, 34")
+    print_fibonacci_seq(10)
+    print()
+    print_prime_numbers(5)
 
 
 def main():
@@ -451,6 +489,7 @@ def main():
     stream_processor(n)
     stream_analytics(n)
     Generator_damonstration()
+    print()
 
 
 main()
