@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 
+
 def print_arguments(len_arg, arguments):
     print(f"Arguments received: {len_arg - 1}")
     i: int = 1

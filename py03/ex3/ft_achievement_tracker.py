@@ -3,7 +3,8 @@ def main():
 
     bob = {'first_kill', 'level_10', 'boss_slayer', 'collector'}
     alice = {'first_kill', 'level_10', 'treasure_hunter', 'speed_demon'}
-    charlie = {'level_10', 'treasure_hunter', 'boss_slayer', 'speed_demon', 'perfectionist'}
+    charlie = {'level_10', 'treasure_hunter', 'boss_slayer', 'speed_demon',
+               'perfectionist'}
 
     print(f"Player alice achievements: {alice}")
     print(f"Player bob achievements: {bob}")
