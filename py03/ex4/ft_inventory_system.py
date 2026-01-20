@@ -87,15 +87,6 @@ def dict_properties(inventories):
     print(f"Sample lookup - {sword_lookup}")
 
 
-# def sort_dict(inventories):
-#     sort_dict = {}
-#     i = 0
-#     for item, qty in inventories.items():
-#         for item, qty in inventories.items():
-#             if qty >= i:
-#                 sort_dict[item] = qty
-
-
 def item_categories(inventories):
     print("\n=== Item Categories ===")
     Moderate_dict = {}
