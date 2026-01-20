@@ -1,16 +1,17 @@
 import sys
+from typing import Dict
 
 
-def find_index(str):
-    i = 0
+def find_index(str) -> int:
+    i: int = 0
     for c in str:
         i += 1
         if c == ":":
             return i
 
 
-def make_dict_from_list(inventories_list):
-    my_dict = {}
+def make_dict_from_list(inventories_list) -> Dict:
+    my_dict: Dict = {}
     for str in inventories_list:
         i = find_index(str)
         key = str[: i - 1]

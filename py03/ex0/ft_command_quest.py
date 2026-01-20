@@ -2,7 +2,7 @@
 import sys
 
 
-def print_arguments(len_arg, arguments):
+def print_arguments(len_arg: int, arguments: list[str]) -> None:
     print(f"Arguments received: {len_arg - 1}")
     i: int = 1
     for arg in arguments[1:]:
@@ -10,9 +10,9 @@ def print_arguments(len_arg, arguments):
         i += 1
 
 
-def main():
-    arguments = sys.argv
-    len_arg = len(arguments)
+def main() -> None:
+    arguments: list[str] = sys.argv
+    len_arg: int = len(arguments)
     print("=== Command Quest ===")
     if len_arg == 1:
         print("No arguments provided!")

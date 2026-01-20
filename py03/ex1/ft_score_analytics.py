@@ -1,14 +1,16 @@
 import sys
 
 
-def main():
+def main() -> None:
     print("=== Player Score Analytics ===")
 
     try:
-        scores = [int(x) for x in sys.argv[1:]]
+        scores: list[int] = [int(x) for x in sys.argv[1:]]
         if len(scores) == 0:
-            print("No scores provided. Usage: python3 "
-                  "ft_score_analytics.py <score1> <score2> ...")
+            print(
+                "No scores provided. Usage: python3 "
+                "ft_score_analytics.py <score1> <score2> ..."
+            )
         else:
             print(f"Scores processed:: {scores}")
             print(f"Total players: {len(scores)}")
