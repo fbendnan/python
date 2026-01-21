@@ -1,4 +1,6 @@
-data = [
+from typing import List, Dict, Iterator, Tuple, Any
+
+data: List[Dict[str, Any]] = [
     {
         "id": 1,
         "player": "frank",
@@ -352,7 +354,7 @@ data = [
 ]
 
 
-def generate_data():
+def generate_data() -> Iterator[Dict[str, Any]]:
     players = iter(data)
     return players
 
@@ -365,7 +367,7 @@ def is_special_event(event: str) -> bool:
     return False
 
 
-def remake_event_for_print(event: str) -> str:
+def remake_event_for_print(event: str) -> str | None:
     if event == "level_up":
         return "leveled up"
     elif event == "kill":
@@ -376,7 +378,7 @@ def remake_event_for_print(event: str) -> str:
         return "dead"
 
 
-def stream_processor(n: int):
+def stream_processor(n: int) -> None:
     print("=== Game Data Stream Processor ===\n")
     print(f"Processing {n} game events...\n")
     i = 1
@@ -395,7 +397,7 @@ def stream_processor(n: int):
             return
 
 
-def count_events(n: int):
+def count_events(n: int) -> Tuple[int, int, int]:
     players = generate_data()
     kill = 0
     level_up = 0
@@ -417,7 +419,7 @@ def count_events(n: int):
     return level_up, level_up_10, item_found
 
 
-def stream_analytics(n):
+def stream_analytics(n: int) -> None:
     print("\n=== Stream Analytics ===\n")
     print(f"Total events processed: {n}")
     level_up, level_up_10, item_found = count_events(n)
@@ -428,7 +430,7 @@ def stream_analytics(n):
     print("Processing time: 0.045 seconds")
 
 
-def fibonacci_generator(nb):
+def fibonacci_generator(nb: int) -> Iterator[int]:
     first = 0
     sec = 1
     for i in range(nb):
@@ -438,7 +440,7 @@ def fibonacci_generator(nb):
         sec = tmp + sec
 
 
-def print_fibonacci_seq(nb):
+def print_fibonacci_seq(nb: int) -> None:
     fibs = fibonacci_generator(nb)
     print("Fibonacci sequence (first 10): ", end="")
     for i in range(nb):
@@ -449,7 +451,7 @@ def print_fibonacci_seq(nb):
             print(f"{fib}", end="")
 
 
-def is_prime_number(num):
+def is_prime_number(num: int) -> bool:
     i = 2
     while i <= (num / 2):
         if num % i == 0:
@@ -458,7 +460,7 @@ def is_prime_number(num):
     return True
 
 
-def prime_nb_generator():
+def prime_nb_generator() -> Iterator[int]:
     i = 2
     while True:
         if is_prime_number(i):
@@ -466,7 +468,7 @@ def prime_nb_generator():
         i += 1
 
 
-def print_prime_numbers(nb):
+def print_prime_numbers(nb: int) -> None:
     primes_nb = prime_nb_generator()
     print(f"Prime numbers (first {nb}): ", end="")
     for i in range(nb):
@@ -477,14 +479,14 @@ def print_prime_numbers(nb):
             print(prime_nb, end="")
 
 
-def Generator_damonstration():
+def Generator_damonstration() -> None:
     print("\n=== Generator Demonstration ===")
     print_fibonacci_seq(10)
     print()
     print_prime_numbers(5)
 
 
-def main():
+def main() -> None:
     n = len(data)
     stream_processor(n)
     stream_analytics(n)

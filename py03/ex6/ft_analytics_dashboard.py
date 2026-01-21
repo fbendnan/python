@@ -1,4 +1,6 @@
-data = {
+from typing import Dict, List, Tuple, Set, Any
+
+data: Dict[str, Any] = {
     "players": {
         "alice": {
             "level": 41,
@@ -267,10 +269,10 @@ data = {
 }
 
 
-def active_players_analytics():
-    high_players = []
-    scorers_doubled = []
-    active_players = []
+def active_players_analytics() -> Tuple[List[str], List[int], List[str]]:
+    high_players: List[str] = []
+    scorers_doubled: List[int] = []
+    active_players: List[str] = []
     for player, info in data["players"].items():
         if info["total_score"] > 2000:
             high_players += [player]
@@ -281,7 +283,7 @@ def active_players_analytics():
     return high_players, scorers_doubled, active_players
 
 
-def list_comprehension_ex():
+def list_comprehension_ex() -> float:
     print("=== List Comprehension Examples ===")
     high_players, scorers_doubled, active_players = active_players_analytics()
     print(f"High scorers (>2000): {high_players}")
@@ -290,10 +292,11 @@ def list_comprehension_ex():
     return sum(scorers_doubled) / 2
 
 
-def dict_comprehension_ex():
-    players_scores = {}
-    players_achievement_count = {}
-    score_categories = {"high": 0, "medium": 0, "low": 0}
+def dict_comprehension_ex() ->Dict[str, int]:
+    players_scores: Dict[str, int] = {}
+    players_achievement_count: Dict[str, int] = {}
+    score_categories: Dict[str, int] = {"high": 0, "medium": 0, "low": 0}
+
     for player, info in data["players"].items():
         players_scores[player] = info["total_score"]
         players_achievement_count[player] = info["achievements_count"]
@@ -313,7 +316,7 @@ def dict_comprehension_ex():
     return players_scores
 
 
-def set_comprehension_ex():
+def set_comprehension_ex() -> None:
     print("=== Set Comprehension Examples ===")
     unique_players = set()
     unique_achievement = set()
@@ -330,7 +333,7 @@ def set_comprehension_ex():
     print(f"Active regions: {active_region}")
 
 
-def game_dashboard():
+def game_dashboard() -> None:
     print("=== Game Analytics Dashboard ===")
     print()
     total_scorers = list_comprehension_ex()
@@ -345,7 +348,7 @@ def game_dashboard():
     sorted_players_scores = dict(
         sorted(players_scores.items(), key=lambda item: item[1], reverse=True)
     )
-    name_player = list(sorted_players_scores)
+    name_player: List[str] = list(sorted_players_scores)
     print(sorted_players_scores)
     print(
         f"Total players: {total_players}\n"
@@ -358,7 +361,7 @@ def game_dashboard():
     )
 
 
-def main():
+def main() -> None:
     game_dashboard()
 
 
