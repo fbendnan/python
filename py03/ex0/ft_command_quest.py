@@ -11,16 +11,18 @@ def print_arguments(len_arg: int, arguments: list[str]) -> None:
 
 
 def main() -> None:
-    arguments: list[str] = sys.argv
-    len_arg: int = len(arguments)
-    print("=== Command Quest ===")
-    if len_arg == 1:
-        print("No arguments provided!")
-    print(f"Program name: {arguments[0]}")
-    if len_arg > 1:
-        print_arguments(len_arg, arguments)
-    print(f"Total arguments: {len_arg}")
+    try:
+        arguments: list[str] = sys.argv
+        len_arg: int = len(arguments)
+        print("=== Command Quest ===")
+        if len_arg == 1:
+            print("No arguments provided!")
+        print(f"Program name: {arguments[0]}")
+        if len_arg > 1:
+            print_arguments(len_arg, arguments)
+        print(f"Total arguments: {len_arg}")
+    except Exception as e:
+        print(f"Error : {e}")
 
 
-if __name__ == "__main__":
-    main()
+main()

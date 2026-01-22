@@ -1,6 +1,5 @@
-from typing import Dict, List, Tuple, Set, Any
 
-data: Dict[str, Any] = {
+data: dict = {
     "players": {
         "alice": {
             "level": 41,
@@ -258,6 +257,7 @@ data: Dict[str, Any] = {
     "game_modes": ["casual", "competitive", "ranked"],
     "achievements": [
         "first_blood",
+        "first_blood",
         "level_master",
         "speed_runner",
         "treasure_seeker",
@@ -269,10 +269,10 @@ data: Dict[str, Any] = {
 }
 
 
-def active_players_analytics() -> Tuple[List[str], List[int], List[str]]:
-    high_players: List[str] = []
-    scorers_doubled: List[int] = []
-    active_players: List[str] = []
+def active_players_analytics() -> tuple:
+    high_players: list[str] = []
+    scorers_doubled: list[int] = []
+    active_players: list[str] = []
     for player, info in data["players"].items():
         if info["total_score"] > 2000:
             high_players += [player]
@@ -292,10 +292,10 @@ def list_comprehension_ex() -> float:
     return sum(scorers_doubled) / 2
 
 
-def dict_comprehension_ex() ->Dict[str, int]:
-    players_scores: Dict[str, int] = {}
-    players_achievement_count: Dict[str, int] = {}
-    score_categories: Dict[str, int] = {"high": 0, "medium": 0, "low": 0}
+def dict_comprehension_ex() ->dict:
+    players_scores: dict[str, int] = {}
+    players_achievement_count: dict[str, int] = {}
+    score_categories: dict[str, int] = {"high": 0, "medium": 0, "low": 0}
 
     for player, info in data["players"].items():
         players_scores[player] = info["total_score"]
@@ -348,11 +348,11 @@ def game_dashboard() -> None:
     sorted_players_scores = dict(
         sorted(players_scores.items(), key=lambda item: item[1], reverse=True)
     )
-    name_player: List[str] = list(sorted_players_scores)
+    name_player: list[str] = list(sorted_players_scores)
     print(sorted_players_scores)
     print(
         f"Total players: {total_players}\n"
-        f"Total unique achievements: {len(data["achievements"])}\n"
+        f"Total unique achievements: {len(set(data["achievements"]))}\n"
         f"Average score: {average_score:.1f}\n"
         f"Top performer: {name_player[0]} "
         f"({sorted_players_scores[name_player[0]]} points, "
@@ -362,7 +362,10 @@ def game_dashboard() -> None:
 
 
 def main() -> None:
-    game_dashboard()
+    try:
+        game_dashboard()
+    except Exception as e:
+        print(f"Error : {e}")
 
 
 main()

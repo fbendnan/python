@@ -1,6 +1,5 @@
-from typing import List, Dict, Iterator, Tuple, Any
-
-data: List[Dict[str, Any]] = [
+from typing import Iterator
+data: list[dict] = [
     {
         "id": 1,
         "player": "frank",
@@ -354,7 +353,7 @@ data: List[Dict[str, Any]] = [
 ]
 
 
-def generate_data() -> Iterator[Dict[str, Any]]:
+def generate_data() -> Iterator[dict]:
     players = iter(data)
     return players
 
@@ -376,6 +375,7 @@ def remake_event_for_print(event: str) -> str | None:
         return "found treasure"
     elif event == "death":
         return "dead"
+    return None
 
 
 def stream_processor(n: int) -> None:
@@ -397,7 +397,7 @@ def stream_processor(n: int) -> None:
             return
 
 
-def count_events(n: int) -> Tuple[int, int, int]:
+def count_events(n: int) -> tuple[int, int, int]:
     players = generate_data()
     kill = 0
     level_up = 0
@@ -487,11 +487,14 @@ def Generator_damonstration() -> None:
 
 
 def main() -> None:
-    n = len(data)
-    stream_processor(n)
-    stream_analytics(n)
-    Generator_damonstration()
-    print()
+    try:
+        n = len(data)
+        stream_processor(n)
+        stream_analytics(n)
+        Generator_damonstration()
+        print()
+    except Exception as e:
+        print(f"Error : {e}")
 
 
 main()

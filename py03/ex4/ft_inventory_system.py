@@ -1,17 +1,17 @@
 import sys
-from typing import List, Dict, Any
 
 
-def find_index(str: str) -> int | None:
-    i = 0
+def find_index(str: str) -> int:
+    i: int = 0
     for c in str:
         i += 1
         if c == ":":
             return i
+    return 0
 
 
-def make_dict_from_list(inventories_list: List[str]) -> Dict[str, int]:
-    my_dict: Dict[Any, int] = {}
+def make_dict_from_list(inventories_list: list[str]) -> dict[str, int]:
+    my_dict: dict = {}
     for str in inventories_list:
         i = find_index(str)
         key = str[: i - 1]
@@ -20,7 +20,7 @@ def make_dict_from_list(inventories_list: List[str]) -> Dict[str, int]:
     return my_dict
 
 
-def inventory_sys_analysis(inventories: Dict[str, int]) -> int:
+def inventory_sys_analysis(inventories: dict[str, int]) -> int:
     print("=== Inventory System Analysis ===")
     total_items = 0
     for item, qty in inventories.items():
@@ -30,7 +30,7 @@ def inventory_sys_analysis(inventories: Dict[str, int]) -> int:
     return total_items
 
 
-def current_inventory(inventories: Dict[str, int], total_items: int) -> None:
+def current_inventory(inventories: dict[str, int], total_items: int) -> None:
     inventories = dict(
         sorted(inventories.items(), key=lambda item: item[1], reverse=True)
     )
@@ -40,7 +40,7 @@ def current_inventory(inventories: Dict[str, int], total_items: int) -> None:
         print(f"{item}: {qty} units ({per:.2f}%)")
 
 
-def inventory_statics(inventories: Dict[str, int], total_items: int) -> None:
+def inventory_statics(inventories: dict[str, int], total_items: int) -> None:
     print("\n=== Inventory Statistics ===")
     most = ""
     least = ""
@@ -58,26 +58,26 @@ def inventory_statics(inventories: Dict[str, int], total_items: int) -> None:
     print(f"Most abundant: {most} ({most_qty} units)")
 
 
-def lookup_in_dict(inventories: Dict[str, int], to_find: str) -> str:
+def lookup_in_dict(inventories: dict[str, int], to_find: str) -> str:
     for item, qty in inventories.items():
         if item == to_find:
             return f"'{to_find}' in inventory: {True}"
     return f"'{to_find}' in inventory: {False}"
 
 
-def management_sugg(inventories: Dict[str, int]) -> None:
+def management_sugg(inventories: dict[str, int]) -> None:
     print("\n=== Management Suggestions ===")
-    restock_needed: List[str] = []
+    restock_needed: list[str] = []
     for item, qty in inventories.items():
         if qty < 2:
             restock_needed += [item]
     print(f"Restock needed: {restock_needed}")
 
 
-def dict_properties(inventories: Dict[str, int]) -> None:
+def dict_properties(inventories: dict[str, int]) -> None:
     print("\n=== Dictionary Properties Demo ===")
-    dict_keys: List[str] = []
-    dict_values: List[int] = []
+    dict_keys: list[str] = []
+    dict_values: list[int] = []
     for item, qty in inventories.items():
         dict_keys += [item]
         dict_values += [qty]
@@ -87,10 +87,10 @@ def dict_properties(inventories: Dict[str, int]) -> None:
     print(f"Sample lookup - {sword_lookup}")
 
 
-def item_categories(inventories: Dict[str, int]) -> None:
+def item_categories(inventories: dict[str, int]) -> None:
     print("\n=== Item Categories ===")
-    Moderate_dict: Dict[str, int] = {}
-    Scarce_dict: Dict[str, int] = {}
+    Moderate_dict: dict[str, int] = {}
+    Scarce_dict: dict[str, int] = {}
     for item, qty in inventories.items():
         if qty >= 5:
             Moderate_dict[item] = qty
@@ -102,9 +102,9 @@ def item_categories(inventories: Dict[str, int]) -> None:
 
 
 def main() -> None:
-    tmp_inventories: List[str] = sys.argv[1:]
-    if len(tmp_inventories) != 0:
-        try:
+    try:
+        tmp_inventories: list[str] = sys.argv[1:]
+        if len(tmp_inventories) != 0:
             inventories = make_dict_from_list(tmp_inventories)
             total_items = inventory_sys_analysis(inventories)
             current_inventory(inventories, total_items)
@@ -112,8 +112,8 @@ def main() -> None:
             item_categories(inventories)
             management_sugg(inventories)
             dict_properties(inventories)
-        except Exception:
-            print(Exception)
+    except Exception as e:
+            print(f"Error : {e}")
 
 
 main()

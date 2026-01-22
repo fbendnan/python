@@ -1,37 +1,41 @@
 def main() -> None:
-    print("=== Achievement Tracker System ===\n")
+    try:
+        print("=== Achievement Tracker System ===\n")
 
-    bob: set[str] = {'first_kill', 'level_10', 'boss_slayer',
-                     'collector'}
-    alice: set[str] = {'first_kill', 'level_10', 'treasure_hunter',
-                       'speed_demon'}
-    charlie: set[str] = {'level_10', 'treasure_hunter', 'boss_slayer',
-                         'speed_demon', 'perfectionist'}
+        bob: set[str] = {'first_kill', 'level_10', 'boss_slayer',
+                        'collector'}
+        alice: set[str] = {'first_kill', 'level_10', 'treasure_hunter',
+                        'speed_demon'}
+        charlie: set[str] = {'level_10', 'treasure_hunter', 'boss_slayer',
+                            'speed_demon', 'perfectionist'}
 
-    print(f"Player alice achievements: {alice}")
-    print(f"Player bob achievements: {bob}")
-    print(f"Player charlie achievements: {charlie}")
+        print(f"Player alice achievements: {alice}")
+        print(f"Player bob achievements: {bob}")
+        print(f"Player charlie achievements: {charlie}")
 
-    print("\n=== Achievement Analytics ===")
+        print("\n=== Achievement Analytics ===")
 
-    all_achievements: set[str] = alice | bob | charlie
-    print(f"All unique achievements: {all_achievements}")
-    print(f"Total unique achievements: {len(all_achievements)}")
+        # all_achievements: set[str] = alice | bob | charlie
+        all_achievements: set[str] = alice.union(bob , charlie)
 
-    common: set[str] = alice & bob & charlie
-    print(f"\nCommon to all players: {common}")
+        print(f"All unique achievements: {all_achievements}")
+        print(f"Total unique achievements: {len(all_achievements)}")
 
-    rare: set[str] = (
-        alice.difference(bob | charlie)
-        | bob.difference(alice | charlie)
-        | charlie.difference(alice | bob)
-    )
-    print(f"Rare achievements (1 player): {rare}")
+        common: set[str] = alice.intersection(bob, charlie)
+        print(f"\nCommon to all players: {common}")
 
-    print(f"\nAlice vs Bob common: {alice & bob}")
-    print(f"Alice unique: {alice - bob}")
-    print(f"Bob unique: {bob - alice}")
+        rare: set[str] = (
+            alice.difference(bob | charlie)
+            | bob.difference(alice | charlie)
+            | charlie.difference(alice | bob)
+        )
+        print(f"Rare achievements (1 player): {rare}")
+
+        print(f"\nAlice vs Bob common: {alice & bob}")
+        print(f"Alice unique: {alice - bob}")
+        print(f"Bob unique: {bob - alice}")
+    except Exception as e:
+        print(f"Error : {e}")
 
 
-if __name__ == "__main__":
-    main()
+main()

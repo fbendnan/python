@@ -25,5 +25,4 @@ def main() -> None:
         print("Error: all arguments must be integers.")
 
 
-if __name__ == "__main__":
-    main()
+main()
