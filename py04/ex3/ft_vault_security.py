@@ -1,4 +1,4 @@
-def main():
+def main() -> None:
     try:
         print("=== CYBER ARCHIVES - VAULT SECURITY SYSTEM ===")
         print("\nInitiating secure vault access...")
