@@ -7,62 +7,44 @@ class DataProcessor(ABC):
     @abstractmethod
     def process(self, data: Any) -> str:
         ...
-    
+
     @abstractmethod
     def validate(self, data: Any) -> bool:
         ...
 
     def format_output(self, result: str) -> str:
-        ...
+        return result
 
 
 class NumericProcessor(DataProcessor):
     def process(self, data: Any) -> str:
-        print("Initializing Numeric Processor...")
-        print(f"Processing data: {data}")
-        sum_nb = sum(d for d in data)
+        sum_nb = sum(int(d) for d in data)
         len_nb = len(data)
         return f"Processed {len_nb} numeric values, sum={sum_nb}, avg={sum_nb/len_nb}"
 
-        
-    
+
     def validate(self, data: Any) -> bool:
         try:
             for d in data:
                 d = int(d)
-        except ValueError as e:
-            print(f"Error: {e}")
-        return True
+            return True
+        except (ValueError, TypeError):
+            return False
 
-    def format_output(self, result: str) -> str:
-        return f"Output: {result}"
-        
 
 class TextProcessor(DataProcessor):
     def process(self, data: Any) -> str:
-        print("Initializing Text Processor...")
-        print(f'Processing data: "{data}"')
         data_len = len(data)
         data_wods = data.split(' ', data_len)
         result = f"Processed text: {data_len} characters, {len(data_wods)} words"
         return result
 
     def validate(self, data: Any) -> bool:
-        try:
-            for d in data:
-                d = str(d)
-        except ValueError as e:
-            print(f"Error: {e}")
-        return True
-
-    def format_output(self, result: str) -> str:
-        return f"Output: {result}"
+        return type(data) == str
 
 
 class LogProcessor(DataProcessor):
     def process(self, data: Any) -> str:
-        print("Initializing Log Processor...")
-        print(f'Processing data: "{data}"')
         data_len = len(data)
         data_splited = data.split(':', data_len)
         result = f'[ALERT] {data_splited[0]} level detected: {data_splited[1]}'
@@ -73,49 +55,60 @@ class LogProcessor(DataProcessor):
         for c in data:
             if c == ':':
                 i += 1
-        if i > 1:
-            return False
-        return True
-
-    def format_output(self, result: str) -> str:
-        return f"Output: {result}"
+        return (type(data) == str and i == 1)
 
 
-def process_test(data, wichProcecss):
-    d = wichProcecss
+def numeric_process_test(data):
+    print("Initializing Numeric Processor...")
+    print(f"Processing data: {data}")
+    print("Validation: Numeric data verified")
+    d = NumericProcessor()
     if d.validate(data):
         result = d.process(data)
         output = d.format_output(result)
-    print(output)
+    print(f"Output: {output}")
 
 
-def polymorphic_test(data):
-    print("Processing multiple data types through same interface...")
-    d = DataProcessor()
+def text_process_test(data):
+    print("Initializing Text Processor...")
+    print(f'Processing data: "{data}"')
+    print("Validation: Text data verified")
+    d = TextProcessor()
     if d.validate(data):
         result = d.process(data)
         output = d.format_output(result)
-    print(output)
+    print(f"Output: {output}")
+
+
+def log_process_test(data):
+    print("Initializing Log Processor...")
+    print(f'Processing data: "{data}"')
+    print("Validation: Log entry verified")
+    d = LogProcessor()
+    if d.validate(data):
+        result = d.process(data)
+        output = d.format_output(result)
+    print(f"Output: {output}")
+
+def polymorphic_test(data, processor: DataProcessor, i):
+    if processor.validate(data):
+        result = processor.process(data)
+        output = processor.format_output(result)
+        print(f"Result {i}: {output}")
+
 
 
 def main():
     print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===\n")
-    try:
-        data = [1, 2, 3]
-        process_test(data, NumericProcessor())
-        print()
-        data_1 = 'Hello Nexus World'
-        process_test(data_1, TextProcessor())
-        print()
-        data_1 = 'ERROR: Connection timeout'
-        process_test(data_1, LogProcessor())
-        print()
-        polymorphic_test(data)
-        
-    except Exception as e:
-        print(f"Error :{e}")
-    
-    
+    numeric_process_test([1, 2, 3])
+    print()
+    text_process_test("Hello Nexus World")
+    print()
+    log_process_test("ERROR: Connection timeout")
+    print("\nProcessing multiple data types through same interface...")
 
+    polymorphic_test([1, 2, 3], NumericProcessor(), 1)
+    polymorphic_test("Hello Nexus World", TextProcessor(), 2)
+    polymorphic_test("INFO: System ready", LogProcessor(), 3)
 
 main()
