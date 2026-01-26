@@ -63,47 +63,46 @@ class LogProcessor(DataProcessor):
         return (isinstance(data, str) and i == 1)
 
 
-def numeric_process_test(data):
+def numeric_process_test(data: Any) -> None:
     print("Initializing Numeric Processor...")
-    print(f"Processing data: {data}")
-    print("Validation: Numeric data verified")
     d = NumericProcessor()
     if d.validate(data):
+        print(f"Processing data: {data}")
+        print("Validation: Numeric data verified")
         result = d.process(data)
         output = d.format_output(result)
     print(f"Output: {output}")
 
 
-def text_process_test(data):
+def text_process_test(data: Any) -> None:
     print("Initializing Text Processor...")
-    print(f'Processing data: "{data}"')
-    print("Validation: Text data verified")
     d = TextProcessor()
     if d.validate(data):
+        print(f'Processing data: "{data}"')
+        print("Validation: Text data verified")
         result = d.process(data)
         output = d.format_output(result)
     print(f"Output: {output}")
 
 
-def log_process_test(data):
+def log_process_test(data: Any) -> None:
     print("Initializing Log Processor...")
-    print(f'Processing data: "{data}"')
-    print("Validation: Log entry verified")
     d = LogProcessor()
     if d.validate(data):
+        print(f'Processing data: "{data}"')
+        print("Validation: Log entry verified")
         result = d.process(data)
         output = d.format_output(result)
     print(f"Output: {output}")
 
-def polymorphic_test(data, processor: DataProcessor, i):
+def polymorphic_test(data: Any, processor: DataProcessor, i: int) -> None:
     if processor.validate(data):
         result = processor.process(data)
         output = processor.format_output(result)
         print(f"Result {i}: {output}")
 
 
-
-def main():
+def main() -> None:
     print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===\n")
     numeric_process_test([1, 2, 3])
     print()
