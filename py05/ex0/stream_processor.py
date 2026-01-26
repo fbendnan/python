@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any
-
+from typing import Any, List, Dict, Union, Optional
 
 class DataProcessor(ABC):
 
@@ -18,15 +17,20 @@ class DataProcessor(ABC):
 
 class NumericProcessor(DataProcessor):
     def process(self, data: Any) -> str:
-        sum_nb = sum(int(d) for d in data)
-        len_nb = len(data)
-        return f"Processed {len_nb} numeric values, sum={sum_nb}, avg={sum_nb/len_nb}"
+        try:
+            sum_nb = sum(int(d) for d in data)
+            len_nb = len(data)
+            return f"Processed {len_nb} numeric values, sum={sum_nb}, avg={sum_nb/len_nb}"
+        except Exception as e:
+            return f"Error: {e}"
 
 
     def validate(self, data: Any) -> bool:
+        if not isinstance(data, list):
+            return False
         try:
             for d in data:
-                d = int(d)
+                d = float(d)
             return True
         except (ValueError, TypeError):
             return False
@@ -35,27 +39,28 @@ class NumericProcessor(DataProcessor):
 class TextProcessor(DataProcessor):
     def process(self, data: Any) -> str:
         data_len = len(data)
-        data_wods = data.split(' ', data_len)
-        result = f"Processed text: {data_len} characters, {len(data_wods)} words"
-        return result
+        data_wods = data.split()
+        return f"Processed text: {data_len} characters, {len(data_wods)} words"
 
     def validate(self, data: Any) -> bool:
-        return type(data) == str
+        return isinstance(data, str)
 
 
 class LogProcessor(DataProcessor):
     def process(self, data: Any) -> str:
-        data_len = len(data)
-        data_splited = data.split(':', data_len)
-        result = f'[ALERT] {data_splited[0]} level detected: {data_splited[1]}'
-        return result
+        try:
+            data_len = len(data)
+            data_splited = data.split(':', 1)
+            return f'[ALERT] {data_splited[0]} level detected: {data_splited[1]}'
+        except IndexError:
+            return "Error: Invalid log format"
     
     def validate(self, data: Any) -> bool:
         i = 0
         for c in data:
             if c == ':':
                 i += 1
-        return (type(data) == str and i == 1)
+        return (isinstance(data, str) and i == 1)
 
 
 def numeric_process_test(data):
