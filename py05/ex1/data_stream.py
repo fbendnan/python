@@ -25,7 +25,7 @@ class SensorStream(DataStream):
         try:
             for d_b in data_batch:
                 d = d_b.split(':')
-                data[d[0]] = int(d[1])
+                data[d[0]] = float(d[1])
             return f"{len(data)}  readings processed, avg temp: {data["temp"]}°C"
         except Exception as e:
             print(f"Error: {e}")
@@ -34,16 +34,39 @@ class TransactionStream(DataStream):
     def __init__(self, stream_id):
         self.stream_id = stream_id
 
-    def ff(self):
-        self.count_op += 1
+    def process_batch(self, data_batch: List[Any]) -> str :
+        data = {}
+        buy = 0
+        sell = 0
+        try:
+            for d_b in data_batch:
+                d = d_b.split(':')
+                data[d[0]] = int(d[1])
+            for key, value in data.items():
+                if key == 'buy':
+                    buy += value
+                elif key == 'sell':
+                    sell += value
+            return f"{len(data)} operations, net flow: +{buy - sell} units"
+        except Exception as e:
+            print(f"Error: {e}")
+    
         
 
 class EventStream(DataStream):
     def __init__(self, stream_id):
         self.stream_id = stream_id
     
-    def ff(self):
-        self.count_op += 1
+    def process_batch(self, data_batch: List[Any]) -> str :
+        count_errors = 0
+        try:
+            for event in data_batch:
+                if event == 'error':
+                    count_errors += 1
+            return f"{len(data_batch)} events, {count_errors} error detected"
+        except Exception as e:
+            print(f"Error: {e}")
+    
 
 
 class StreamProcessor:
