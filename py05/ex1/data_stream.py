@@ -70,17 +70,33 @@ class EventStream(DataStream):
 
 
 class StreamProcessor:
-    pass
+    def __init__(self):
+        self.streams = []
+        self.data_streams = []
+
+    def store_streams(self, stream, data_stream):
+        self.streams += [stream]
+        self.data_streams += [data_stream]
+
+    def stream_processor(self):
+        i: int= 0
+        result_batch: str = ""
+        for stream in self.streams():
+            result_batch += stream.process_batch(self.data_streams[i])
+            print(result_batch)
+            i += 1
 
 
 def main():
     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===")
     data = {"streams":{
-        "SENSOR_001": {"type": "Environmental Data", "Data": [{'temp':22.5}, {'humidity':65}, {'pressure':1013}]},
-        "TRANS_001": {"type": "Financial Data"},
-        "EVENT_001": {"type": " System Events"}
+        "SENSOR_001": {"type": "Environmental Data", "Data": ['temp:22.5', 'humidity:65', 'pressure:1013']},
+        "TRANS_001": {"type": "Financial Data", "Data": ['buy:100', 'sell:150', 'buy:75']},
+        "EVENT_001": {"type": " System Events", "Data": ['login', 'error', 'logout']}
     }}
 
+
+    print()
 
     for key in data["streams"].items():
         SensorStream(key)
@@ -88,8 +104,4 @@ def main():
         EventStream(key)
 
 
-dat = [{'temp':22.5}, {'humidity':65}, {'pressure':1013}]
-
-for d in dat:
-    for k, v in d.items():
-        print(f"{k}:{v} ,", end="")
+main()
