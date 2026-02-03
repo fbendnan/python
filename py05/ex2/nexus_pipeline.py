@@ -9,7 +9,11 @@ class ProcessingStage(Protocol):
 
 class InputStage:
     def process(self, data: Any) -> Any:
-        print(f"Input: {data}")
+        if isinstance(data, dict) or (isinstance(data, str) and "," in data):
+            print(f'Input: {data}')
+        elif isinstance(data, list):
+            for d in data:
+                print(d, end=" ")
         return data
 
 
@@ -19,8 +23,8 @@ class TransformStage:
             print("Transform: Enriched with metadata and validation")
         elif isinstance(data, str) and "," in data:
             print("Transform: Parsed and structured data")
-        elif isinstance(data, str) and " " in data:
-            print("Transform: Aggregated and filtered")
+        elif isinstance(data, list):
+            print("\nTransform: Aggregated and filtered")
         else:
             return "Stage 2"
 
@@ -32,7 +36,8 @@ class OutputStage:
         if isinstance(data, dict):
             temp = data.get("value", 0)
             status = "Normal range" if temp <= 30 else "It's hot"
-            print(f"Output: Processed temperature reading: {temp}°C ({status})")
+            print(f"Output: Processed temperature reading:"
+                  f" {temp}°C ({status})")
 
         elif isinstance(data, str) and "," in data:
             act = 0
@@ -40,13 +45,15 @@ class OutputStage:
             for d in data_splited:
                 if d == "action":
                     act += 1
-            return f"Output: User activity logged: {act} actions processed"
+            print(f"Output: User activity logged: {act} actions processed")
 
-        elif isinstance(data, str) and " " in data:
-            print("Output: Stream summary: 5 readings, avg: 22.1°C")
+        elif isinstance(data, list):
+            print(f"Output: Stream summary: {len(data)} readings,"
+                  f" {data[len(data) - 1]}")
         else:
             return "Stage 3"
         return data
+
 
 class ProcessingPipeline(ABC):
     def __init__(self, pipeline_id: str):
@@ -55,6 +62,10 @@ class ProcessingPipeline(ABC):
 
     def add_stage(self, stage: ProcessingStage) -> None:
         self.stages.append(stage)
+
+    @abstractmethod
+    def process(self, data: Any) -> None:
+        ...
 
     def run(self, data: Any) -> None:
         try:
@@ -66,10 +77,6 @@ class ProcessingPipeline(ABC):
             print(f"Error detected in {data}: Invalid data format")
             print("Recovery initiated: Switching to backup processor")
             print("Recovery successful: Pipeline restored, processing resumed")
-
-    @abstractmethod
-    def process(self, data: Any) -> None:
-        ...
 
 
 class JSONAdapter(ProcessingPipeline):
@@ -106,7 +113,8 @@ class NexusManager:
         print("=== Pipeline Chaining Demo ===")
         print(chain)
         print("Data flow: Raw -> Processed -> Analyzed -> Stored\n")
-        print(f"Chain result: 100 records processed through {len(self.pipelines)}-stage pipeline")
+        print(f"Chain result: 100 records processed through"
+              f" {len(self.pipelines)}-stage pipeline")
         print("Performance: 95% efficiency, 0.2s total processing time")
 
 
@@ -124,10 +132,8 @@ def main() -> None:
 
     print("\n=== Multi-Format Data Processing ===\n")
 
-    # Shared stages
     stages = [InputStage(), TransformStage(), OutputStage()]
 
-    # Pipelines (independent execution)
     json_pipeline = JSONAdapter("Pipeline A")
     csv_pipeline = CSVAdapter("Pipeline B")
     stream_pipeline = StreamAdapter("Pipeline C")
@@ -145,7 +151,7 @@ def main() -> None:
     print()
     csv_pipeline.process("user,action,timestamp")
     print()
-    stream_pipeline.process("Real-time sensor stream")
+    stream_pipeline.process(['Real-time', 'sensor', 'stream', 'temp:12'])
     print()
 
     manager.pipeline_chaining_demo()
@@ -153,7 +159,7 @@ def main() -> None:
     print()
     print("=== Error Recovery Test ===")
     print("Simulating pipeline failure...")
-    json_pipeline.process("INVALID")
+    json_pipeline.process("gdggddg")
 
     print("Nexus Integration complete. All systems operational.")
 

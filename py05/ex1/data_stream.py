@@ -18,6 +18,7 @@ class DataStream(ABC):
     def get_stats(self) -> Dict[str, Union[str, int]]:
         return {"stream_id": self.stream_id, "processed": self.processed_count}
 
+
 class SensorStream(DataStream):
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
@@ -40,6 +41,7 @@ class SensorStream(DataStream):
             )
         except ValueError as e:
             print(f"Error: {e}")
+
 
 class TransactionStream(DataStream):
     def __init__(self, stream_id: str) -> None:
@@ -66,18 +68,20 @@ class TransactionStream(DataStream):
             f"net flow: +{net_flow} units"
         )
 
+
 class EventStream(DataStream):
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
         self.stream_type: str = "System Events"
         self.stream_name = "Event"
 
-
     def process_batch(self, data_batch: List[Any]) -> str:
         errors: int = sum(1 for e in data_batch if e == "error")
         self.processed_count += len(data_batch)
 
-        return f"Event analysis: {len(data_batch)} events, " f"{errors} error detected"
+        return f"Event analysis: {len(data_batch)} events, "\
+               f"{errors} error detected"
+
 
 class StreamProcessor:
     def __init__(self) -> None:
@@ -96,7 +100,9 @@ class StreamProcessor:
             stream.process_batch(batch)
 
             label: str = stream.stream_name
-            print(f"- {label} data: {stream.processed_count} operations processed")
+            print(f"- {label} data: {stream.processed_count} "
+                  f"operations processed")
+
 
 def main() -> None:
     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===")
@@ -115,7 +121,8 @@ def main() -> None:
 
     print("\nInitializing Transaction Stream...")
     transaction = TransactionStream("TRANS_001")
-    print(f"Stream ID: {transaction.stream_id}, Type: {transaction.stream_type}")
+    print(f"Stream ID: {transaction.stream_id}, "
+          f"Type: {transaction.stream_type}")
     print(f"Processing transaction batch: {data['TRANS_001']}")
     print(transaction.process_batch(data["TRANS_001"]))
 

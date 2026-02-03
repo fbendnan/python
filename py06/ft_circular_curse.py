@@ -12,6 +12,7 @@ def main():
     print(f'record_spell("Fireball", "fire air"): {record_spell("Fireball", "fire air")}')
     print(f'record_spell("Dark Magic", "shadow"): {record_spell("Dark Magic", "shadow")}')
     print("\nTesting late import technique:")
+    #///////////
     print(f'record_spell("Lightning", "air"): {record_spell("Lightning", "air")}')
     print("\nCircular dependency curse avoided using late imports!")
     print("All spells processed safely!")

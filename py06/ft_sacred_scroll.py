@@ -12,6 +12,7 @@ def main():
     print(f"alchemy.elements.create_water(): {alchemy.elements.create_water()}")
     print(f"alchemy.elements.create_earth(): {alchemy.elements.create_earth()}")
     print(f"alchemy.elements.create_air(): {alchemy.elements.create_air()}")
+    #//////////////
     print(f"\nTesting package-level access (controlled by __init__.py):")
     print(f"alchemy.create_fire(): {safe_import(alchemy, "create_fire")}")
     print(f"alchemy.create_water(): {alchemy.create_water()}")
