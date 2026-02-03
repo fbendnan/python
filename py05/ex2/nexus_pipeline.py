@@ -122,7 +122,7 @@ def main() -> None:
     print("Stage 2: Data transformation and enrichment")
     print("Stage 3: Output formatting and delivery")
 
-    print("\n=== Multi-Format Data Processing ===")
+    print("\n=== Multi-Format Data Processing ===\n")
 
     # Shared stages
     stages = [InputStage(), TransformStage(), OutputStage()]

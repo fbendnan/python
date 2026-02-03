@@ -22,26 +22,30 @@ class SensorStream(DataStream):
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
         self.stream_type: str = "Environmental Data"
+        self.stream_name = "Sensor"
 
     def process_batch(self, data_batch: List[Any]) -> str:
         values: Dict[str, float] = {}
+        try:
+            for item in data_batch:
+                key, value = item.split(":")
+                values[key] = float(value)
 
-        for item in data_batch:
-            key, value = item.split(":")
-            values[key] = float(value)
+            self.processed_count += len(data_batch)
+            avg_temp: float = values.get("temp", 0.0)
 
-        self.processed_count += len(data_batch)
-        avg_temp: float = values.get("temp", 0.0)
-
-        return (
-            f"Sensor analysis: {len(values)} readings processed, "
-            f"avg temp: {avg_temp}°C"
-        )
+            return (
+                f"Sensor analysis: {len(values)} readings processed, "
+                f"avg temp: {avg_temp}°C"
+            )
+        except ValueError as e:
+            print(f"Error: {e}")
 
 class TransactionStream(DataStream):
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
         self.stream_type: str = "Financial Data"
+        self.stream_name = "Transaction"
 
     def process_batch(self, data_batch: List[Any]) -> str:
         buy: int = 0
@@ -66,6 +70,8 @@ class EventStream(DataStream):
     def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
         self.stream_type: str = "System Events"
+        self.stream_name = "Event"
+
 
     def process_batch(self, data_batch: List[Any]) -> str:
         errors: int = sum(1 for e in data_batch if e == "error")
@@ -86,10 +92,10 @@ class StreamProcessor:
         print("\nBatch 1 Results:")
 
         for stream in self.streams:
-            batch: List[Any] = data.get(stream.stream_id, [])
+            batch: List[Any] = data.get(stream.stream_id)
             stream.process_batch(batch)
 
-            label: str = stream.stream_type.split()[0]
+            label: str = stream.stream_name
             print(f"- {label} data: {stream.processed_count} operations processed")
 
 def main() -> None:
