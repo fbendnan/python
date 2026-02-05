@@ -116,4 +116,5 @@ def main() -> None:
     polymorphic_test("INFO: System ready", LogProcessor(), 3)
 
 
-main()
+if __name__ == "__main__":
+    main()

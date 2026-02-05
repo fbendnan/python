@@ -8,14 +8,15 @@ class DataStream(ABC):
         self.processed_count: int = 0
 
     @abstractmethod
-    def process_batch(self, data_batch: List[Any]) -> str: ...
+    def process_batch(self, data_batch: List[Any]) -> str:
+        ...
 
     def filter_data(
         self, data_batch: List[Any], criteria: Optional[str] = None
     ) -> List[Any]:
         return data_batch
 
-    def get_stats(self) -> Dict[str, Union[str, int]]:
+    def get_stats(self) -> Dict[str, Union[str, int, float]]:
         return {"stream_id": self.stream_id, "processed": self.processed_count}
 
 
@@ -33,7 +34,7 @@ class SensorStream(DataStream):
                 values[key] = float(value)
 
             self.processed_count += len(data_batch)
-            avg_temp: float = values.get("temp", 0.0)
+            avg_temp: float = values.get("temp")
 
             return (
                 f"Sensor analysis: {len(values)} readings processed, "
@@ -141,5 +142,5 @@ def main() -> None:
 
     print("\nAll streams processed successfully. Nexus throughput optimal.")
 
-
-main()
+if __name__ == "__main__":
+    main()
