@@ -142,5 +142,6 @@ def main() -> None:
 
     print("\nAll streams processed successfully. Nexus throughput optimal.")
 
+
 if __name__ == "__main__":
     main()

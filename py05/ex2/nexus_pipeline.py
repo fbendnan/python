@@ -161,7 +161,7 @@ def main() -> None:
     print("Simulating pipeline failure...")
     json_pipeline.process("gdggddg")
 
-    print("Nexus Integration complete. All systems operational.")
+    print("\nNexus Integration complete. All systems operational.")
 
 
 if __name__ == "__main__":

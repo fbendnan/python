@@ -50,10 +50,16 @@ class LogProcessor(DataProcessor):
     def process(self, data: Any) -> str:
         try:
             data_splited = data.split(':', 1)
-            return f'[ALERT] {data_splited[0]} '\
-                   f'level detected: {data_splited[1]}'
-        except IndexError:
-            return "Error: Invalid log format"
+            if data_splited[0].strip().upper() == 'ERROR':
+                return f'[ALERT] {data_splited[0]} '\
+                    f'level detected: {data_splited[1]}'
+            elif data_splited[0].strip().upper() == 'INFO':
+                return f'[INFO] {data_splited[0]} '\
+                    f'level detected: {data_splited[1]}'
+            else:
+                raise ValueError("Invalid log format")
+        except ValueError as e:
+            return f"Error: {e}"
 
     def validate(self, data: Any) -> bool:
         i = 0
@@ -114,6 +120,7 @@ def main() -> None:
     polymorphic_test([1, 2, 3], NumericProcessor(), 1)
     polymorphic_test("Hello Nexus World", TextProcessor(), 2)
     polymorphic_test("INFO: System ready", LogProcessor(), 3)
+    print("\nFoundation systems online. Nexus ready for advanced streams.")
 
 
 if __name__ == "__main__":
