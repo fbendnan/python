@@ -6,6 +6,12 @@ class  SpellCard (Card):
         self.effect_type = str(effect_type)
         self.type = 'Spell'
 
-    def play(self, game_state: dict) -> dict: ...
+    def play(self, game_state: dict) -> dict:
+        play_result: dict = {}
+        play_result['card_played'] = self.name
+        play_result['mana_used'] = self.cost
+        play_result['effect'] = f'Deal {self.cost} {self.effect_type} to target'
+        return play_result
     
-    def resolve_effect(self, targets: list) -> dict: ...
+    def resolve_effect(self, targets: list) -> dict:
+        ...
