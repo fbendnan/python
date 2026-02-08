@@ -11,6 +11,10 @@ class  SpellCard (Card):
         play_result['card_played'] = self.name
         play_result['mana_used'] = self.cost
         play_result['effect'] = f'Deal {self.cost} {self.effect_type} to target'
+        if game_state['mana'] < self.cost:
+            return {'error': 'Not enough mana'}
+
+        game_state['mana'] -= self.cost
         return play_result
     
     def resolve_effect(self, targets: list) -> dict:

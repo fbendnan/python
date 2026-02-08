@@ -1,4 +1,4 @@
-from Card import Card
+from .Card import Card
 
 
 class CreatureCard (Card):
@@ -31,7 +31,11 @@ class CreatureCard (Card):
         play_result: dict = {}
         play_result['card_played'] = self.name
         play_result['mana_used'] = self.cost
-        play_result['effect'] = game_state['effect']
+        play_result['effect'] = 'Creature summoned to battlefield'
+        if game_state['mana'] < self.cost:
+            return {'error': 'Not enough mana'}
+
+        game_state['mana'] -= self.cost
         return play_result
 
     def get_card_info(self) -> dict:

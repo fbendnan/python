@@ -1,7 +1,7 @@
 from ex0.CreatureCard import CreatureCard
-from ArtifactCard import ArtifactCard
-from SpellCard import SpellCard
-from Deck import Deck
+from .ArtifactCard import ArtifactCard
+from .SpellCard import SpellCard
+from .Deck import Deck
 
 
 print("=== DataDeck Deck Builder ===")
@@ -23,12 +23,12 @@ print("Drawing and playing cards:\n")
 
 cards = [card1, card2, card3]
 
-game_state = {'mana': 3}
+game_state = {'mana': 17}
 ran = len(cards)
-for i in ran:
+for i in range(ran):
     deck.shuffle()
     card = deck.draw_card()
-    print(f"Drew: {card.name} (card.type)")
+    print(f"Drew: {card.name} ({card.type})")
     print(f"Play result: {card.play(game_state)}\n")
     deck.remove_card(card.name)
 

@@ -12,6 +12,10 @@ class  ArtifactCard (Card):
         play_result['card_played'] = self.name
         play_result['mana_used'] = self.cost
         play_result['effect'] = self.effect
+        if game_state['mana'] < self.cost:
+            return {'error': 'Not enough mana'}
+
+        game_state['mana'] -= self.cost
         return play_result
     
     def activate_ability(self) -> dict:

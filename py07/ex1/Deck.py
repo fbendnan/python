@@ -1,7 +1,7 @@
 from ex0.Card import Card
 from ex0.CreatureCard import CreatureCard
-from ArtifactCard import ArtifactCard
-from SpellCard import SpellCard
+from .ArtifactCard import ArtifactCard
+from .SpellCard import SpellCard
 import random
 
 class Deck ():
