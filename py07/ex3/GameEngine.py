@@ -30,7 +30,11 @@ class GameEngine:
         battlefield = ["Enemy Player"]
 
         print("\nSimulating aggressive turn...")
-        print(f"Hand: {hand}")
+        hand_list_names = []
+        for h in hand:
+            var = f"{h.name} ({h.cost})"
+            hand_list_names.append(var)
+        print(f"Hand: {", ".join(hand_list_names)}")
 
         result = self.strategy.execute_turn(hand, battlefield)
 

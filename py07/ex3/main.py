@@ -15,4 +15,4 @@ engine.simulate_turn()
 
 print("\nGame Report:")
 print(engine.get_engine_status())
-print("Abstract Factory + Strategy Pattern: Maximum flexibility achieved!")
+print("\nAbstract Factory + Strategy Pattern: Maximum flexibility achieved!")

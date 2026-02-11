@@ -28,7 +28,7 @@ class FantasyCardFactory(CardFactory):
 
     def create_spell(self, name_or_power: str | int | None = None) -> Card:
         rarity = ['Legendary', 'Common', 'Rare', 'Uncommon']
-        effects = ['damage', 'heal', 'buff']
+        effects = ['damage', 'heal']
         name = name_or_power or random.choice(self.types['spells'])
         return SpellCard(
             name,
@@ -57,12 +57,13 @@ class FantasyCardFactory(CardFactory):
         hand = []
         for _ in range(size):
             card_type = random.choice(['creature', 'spell', 'artifact'])
+            names = ['Fire Dragon', 'Goblin Warrior', 'Lightning Bolt']
             if card_type == 'creature':
-                hand.append(self.create_creature())
+                hand.append(self.create_creature(random.choice(names)))
             elif card_type == 'spell':
-                hand.append(self.create_spell())
+                hand.append(self.create_spell(random.choice(names)))
             else:
-                hand.append(self.create_artifact())
+                hand.append(self.create_artifact(random.choice(names)))
 
         return {"Hand": hand}
 

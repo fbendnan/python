@@ -5,13 +5,10 @@ class AggressiveStrategy(GameStrategy):
     def execute_turn(self, hand: list, battlefield: list) -> dict:
         mana_available = 6
         mana_used = 0
-        damage_dealt = 0
+        damage_dealt = 2
         cards_played = []
-        targets_attacked = []
 
-        sorted_hand = sorted(hand, key=lambda card: card.cost)
-
-        for card in sorted_hand:
+        for card in hand:
             if card.cost <= (mana_available - mana_used):
                 mana_used += card.cost
                 cards_played.append(card.name)
@@ -23,13 +20,11 @@ class AggressiveStrategy(GameStrategy):
                     if card.effect_type == "damage":
                         damage_dealt += 3
 
-        if damage_dealt > 0:
-            targets_attacked.append("Enemy Player")
 
         return {
             "cards_played": cards_played,
             "mana_used": mana_used,
-            "targets_attacked": targets_attacked,
+            "targets_attacked": battlefield,
             "damage_dealt": damage_dealt
         }
 
