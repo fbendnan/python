@@ -5,11 +5,14 @@ from .AggressiveStrategy import AggressiveStrategy
 print("=== DataDeck Game Engine ===")
 
 print("\nConfiguring Fantasy Card Game...")
-game = GameEngine()
+engine = GameEngine()
+
 factory = FantasyCardFactory()
 strategy = AggressiveStrategy()
-print(game.configure_engine(factory, strategy))
 
-print("\nSimulating aggressive turn...")
+engine.configure_engine(factory, strategy)
+engine.simulate_turn()
 
-print(factory.create_themed_deck(3))
+print("\nGame Report:")
+print(engine.get_engine_status())
+print("Abstract Factory + Strategy Pattern: Maximum flexibility achieved!")
