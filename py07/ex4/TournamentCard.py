@@ -11,6 +11,9 @@ class TournamentCard (Card, Combatable, Rankable):
         self.attack_result = {}
         self.id = ""
         self.rating = 0
+        self.win_times = 0
+        self.lose_times = 0
+        self.rank = 0
 
     def play(self, game_state: dict) -> dict:
         play_result: dict = {}
@@ -33,9 +36,18 @@ class TournamentCard (Card, Combatable, Rankable):
         self.rating = random.randint(900, 1500)
         return self.rating
 
-    def update_wins(self, wins: int) -> None: ...
-    def update_losses(self, losses: int) -> None: ...
-    def get_rank_info(self) -> dict: ...
+    def update_wins(self, wins: int) -> None:
+        self.win_times += wins
+
+    def update_losses(self, losses: int) -> None:
+        self.lose_times += losses
+
+    def get_rank_info(self) -> dict:
+        rank_info = {
+            self.rank : f"{self.name} - Rating: {self.rating} ({self.win_times}-{self.lose_times})"
+        }
+        return rank_info
+    
     def defend(self, incoming_damage: int) -> dict:
         self.defense_result = {
             "defender": self.name,

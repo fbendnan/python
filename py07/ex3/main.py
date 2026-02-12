@@ -2,17 +2,26 @@ from .GameEngine import GameEngine
 from .FantasyCardFactory import FantasyCardFactory
 from .AggressiveStrategy import AggressiveStrategy
 
-print("=== DataDeck Game Engine ===")
 
-print("\nConfiguring Fantasy Card Game...")
-engine = GameEngine()
+def main():
+    print("=== DataDeck Game Engine ===")
 
-factory = FantasyCardFactory()
-strategy = AggressiveStrategy()
+    print("\nConfiguring Fantasy Card Game...")
+    engine = GameEngine()
 
-engine.configure_engine(factory, strategy)
-engine.simulate_turn()
+    factory = FantasyCardFactory()
+    strategy = AggressiveStrategy()
 
-print("\nGame Report:")
-print(engine.get_engine_status())
-print("\nAbstract Factory + Strategy Pattern: Maximum flexibility achieved!")
+    engine.configure_engine(factory, strategy)
+    engine.simulate_turn()
+
+    print("\nGame Report:")
+    print(engine.get_engine_status())
+    print("\nAbstract Factory + Strategy Pattern: Maximum flexibility achieved!")
+
+
+if __name__ == "__main__":  
+    try:
+        main()
+    except Exception as e:
+        print(e)
