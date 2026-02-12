@@ -3,8 +3,9 @@ from alchemy.elements import create_water
 from alchemy.potions import healing_potion as heal
 from alchemy.potions import strength_potion, create_fire, create_earth
 
+
 def main():
-    print("=== Import Transmutation Mastery ===\n")
+    print("\n=== Import Transmutation Mastery ===\n")
 
     print("Method 1 - Full package access:")
     print(f"alchemy.elements.create_fire(): {alchemy.elements.create_fire()}")
@@ -21,5 +22,6 @@ def main():
     print(f"strength_potion(): {strength_potion()}")
 
     print("\nAll import transmutation methods mastered!")
+
 
 main()
