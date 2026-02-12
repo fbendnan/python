@@ -13,6 +13,7 @@ def main():
     strategy = AggressiveStrategy()
 
     engine.configure_engine(factory, strategy)
+    
     engine.simulate_turn()
 
     print("\nGame Report:")

@@ -47,7 +47,7 @@ class TournamentCard (Card, Combatable, Rankable):
             self.rank : f"{self.name} - Rating: {self.rating} ({self.win_times}-{self.lose_times})"
         }
         return rank_info
-    
+
     def defend(self, incoming_damage: int) -> dict:
         self.defense_result = {
             "defender": self.name,
@@ -61,4 +61,5 @@ class TournamentCard (Card, Combatable, Rankable):
         return {
             "combat_state": [self.attack_result, self.defense_result]
         }
+
     def get_tournament_stats(self) -> dict: ...

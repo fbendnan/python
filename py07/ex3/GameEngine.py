@@ -9,13 +9,15 @@ class GameEngine:
         self.strategy = None
         self.turns_simulated = 0
         self.total_damage = 0
+        self.hand = []
 
     def configure_engine(self, factory: CardFactory, strategy: GameStrategy) -> None:
         self.factory = factory
         self.strategy = strategy
+        deck = self.factory.create_themed_deck(5)
+        self.hand = deck["Hand"]
 
-        print("Configuring Fantasy Card Game...")
-        print(f"Factory: {type(factory).__name__}")
+        print(f"Factory: {factory.get_factory_card_name()}")
         print(f"Strategy: {strategy.get_strategy_name()}")
         print(f"Available types: {factory.get_supported_types()}")
 
@@ -24,19 +26,16 @@ class GameEngine:
         if not self.factory or not self.strategy:
             raise ValueError("Engine not configured")
 
-        deck = self.factory.create_themed_deck(3)
-        hand = deck["Hand"]
-
         battlefield = ["Enemy Player"]
 
         print("\nSimulating aggressive turn...")
         hand_list_names = []
-        for h in hand:
+        for h in self.hand:
             var = f"{h.name} ({h.cost})"
             hand_list_names.append(var)
         print(f"Hand: {", ".join(hand_list_names)}")
 
-        result = self.strategy.execute_turn(hand, battlefield)
+        result = self.strategy.execute_turn(self.hand, battlefield)
 
         self.turns_simulated += 1
         self.total_damage += result.get("damage_dealt", 0)

@@ -1,6 +1,7 @@
 from .TournamentCard import TournamentCard
 from .TournamentPlatform import TournamentPlatform
 
+
 def main():
     print("=== DataDeck Tournament Platform ===\n")
     tournement_card1 = TournamentCard("Fire Dragon", 5, "rare")
@@ -17,7 +18,7 @@ def main():
 
     print("\nTournament Leaderboard:")
     leaderboard = plateform.get_leaderboard()
-    i : int = 1
+    i: int = 1
     for player in leaderboard:
         print(f"{i}. {player[i]}")
         i += 1
@@ -26,10 +27,10 @@ def main():
     print(plateform.generate_tournament_report())
 
     print("\n=== Tournament Platform Successfully Deployed! ==="
-        "\nAll abstract patterns working together harmoniously!")
+          "\nAll abstract patterns working together harmoniously!")
 
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
     try:
         main()
     except Exception as e:

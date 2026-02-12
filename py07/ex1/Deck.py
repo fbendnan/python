@@ -4,13 +4,14 @@ from .ArtifactCard import ArtifactCard
 from .SpellCard import SpellCard
 import random
 
-class Deck ():
+
+class Deck():
     def __init__(self):
         self.cards = []
 
-    def add_card(self, card: Card) -> None: 
+    def add_card(self, card: Card) -> None:
         self.cards.append(card)
-    
+
     def remove_card(self, card_name: str) -> bool:
         for card in self.cards:
             if card.name.lower() == card_name.lower():
@@ -20,7 +21,7 @@ class Deck ():
 
     def shuffle(self) -> None:
         random.shuffle(self.cards)
-    
+
     def draw_card(self) -> Card:
         if len(self.cards) > 0:
             return self.cards[0]
