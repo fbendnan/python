@@ -9,7 +9,8 @@ def main():
 
     print("Building deck with different card types...")
     card1 = CreatureCard('Fire Dragon', 5, 'Legendary', 7, 5)
-    card2 = ArtifactCard('Mana Crystal', 2, 'Common', 5, "Permanent: +1 mana per turn")
+    card2 = ArtifactCard(
+        'Mana Crystal', 2, 'Common', 5, "Permanent: +1 mana per turn")
     card3 = SpellCard("Lightning Bolt", 3, "Common", "damage")
 
     deck = Deck()

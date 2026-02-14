@@ -28,14 +28,14 @@ class FantasyCardFactory(CardFactory):
         else:
             name = random.choice(names)
             attack = random.randint(1, 6)
-            
+
         self.types['creatures'] += [name]
         return CreatureCard(
-            name = name,
-            cost = random.randint(1, 6),
-            rarity = random.choice(rarity),
-            attack = attack,
-            health = random.randint(1, 10)
+            name=name,
+            cost=random.randint(1, 6),
+            rarity=random.choice(rarity),
+            attack=attack,
+            health=random.randint(1, 10)
         )
 
     def create_spell(self, name_or_power: str | int | None = None) -> Card:
@@ -56,10 +56,10 @@ class FantasyCardFactory(CardFactory):
         else:
             name = random.choice(names)
             cost = random.randint(1, 6)
-            
+
         self.types['spells'].append(name)
         return SpellCard(
-            name = name,
+            name=name,
             cost=cost,
             rarity=random.choice(rarity),
             effect_type=random.choice(effects)
@@ -73,9 +73,9 @@ class FantasyCardFactory(CardFactory):
             'Permanent: Draw extra card'
         ]
         names = [
-            "Mana Crystal","Sword of Power",
+            "Mana Crystal", "Sword of Power",
             "Ring of Wisdom", "Shield of Defense",
-            "Crown of Kings", "Boots of Speed", 
+            "Crown of Kings", "Boots of Speed",
             "Cloak of Shadows", "Staff of Elements"
         ]
 
@@ -93,7 +93,7 @@ class FantasyCardFactory(CardFactory):
 
         self.types['artifacts'].append(name)
         return ArtifactCard(
-            name = name,
+            name=name,
             cost=random.randint(1, 6),
             rarity=random.choice(rarity),
             durability=durability,

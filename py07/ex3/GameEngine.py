@@ -1,4 +1,3 @@
-from .FantasyCardFactory import FantasyCardFactory
 from .CardFactory import CardFactory
 from .GameStrategy import GameStrategy
 
@@ -11,7 +10,8 @@ class GameEngine:
         self.total_damage = 0
         self.hand = []
 
-    def configure_engine(self, factory: CardFactory, strategy: GameStrategy) -> None:
+    def configure_engine(self, factory: CardFactory,
+                         strategy: GameStrategy) -> None:
         self.factory = factory
         self.strategy = strategy
         deck = self.factory.create_themed_deck(5)
@@ -20,7 +20,6 @@ class GameEngine:
         print(f"Factory: {factory.get_factory_card_name()}")
         print(f"Strategy: {strategy.get_strategy_name()}")
         print(f"Available types: {factory.get_supported_types()}")
-
 
     def simulate_turn(self) -> dict:
         if not self.factory or not self.strategy:

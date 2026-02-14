@@ -1,5 +1,6 @@
 from .GameStrategy import GameStrategy
 
+
 class AggressiveStrategy(GameStrategy):
 
     def execute_turn(self, hand: list, battlefield: list) -> dict:
@@ -19,7 +20,6 @@ class AggressiveStrategy(GameStrategy):
                 elif hasattr(card, "effect_type"):
                     if card.effect_type == "damage":
                         damage_dealt += 3
-
 
         return {
             "cards_played": cards_played,

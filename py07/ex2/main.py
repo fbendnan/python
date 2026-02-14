@@ -4,7 +4,6 @@ from .EliteCard import EliteCard
 def main():
     print("=== DataDeck Ability System ===\n")
 
-
     elite = EliteCard("Arcane Warrior", 4, "melee")
 
     print("EliteCard capabilities:")

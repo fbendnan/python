@@ -3,6 +3,7 @@ from .Rankable import Rankable
 from ex2.Combatable import Combatable
 import random
 
+
 class TournamentCard (Card, Combatable, Rankable):
     def __init__(self, name, cost, rarity):
         super().__init__(name, cost, rarity)
@@ -44,7 +45,8 @@ class TournamentCard (Card, Combatable, Rankable):
 
     def get_rank_info(self) -> dict:
         rank_info = {
-            self.rank : f"{self.name} - Rating: {self.rating} ({self.win_times}-{self.lose_times})"
+            self.rank: (f"{self.name} - Rating: {self.rating} "
+                        f"({self.win_times}-{self.lose_times})")
         }
         return rank_info
 

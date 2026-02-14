@@ -1,9 +1,10 @@
 from ex0.Card import Card
 from .Combatable import Combatable
 from .Magical import Magical
-import random 
+import random
 
-class  EliteCard (Card, Combatable, Magical):
+
+class EliteCard (Card, Combatable, Magical):
     def __init__(self, name, cost, rarity):
         super().__init__(name, cost, rarity)
         self.defense_result = {}
