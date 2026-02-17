@@ -8,12 +8,12 @@ def is_env():
 
 def main():
     if is_env():
-        print("MATRIX STATUS: Welcome to the construct")
+        print("\nMATRIX STATUS: Welcome to the construct")
         print(f"\nCurrent Python: {sys.executable}")
         print(f"Virtual Environment: {os.path.basename(sys.prefix)}")
         print(f"Environment Path: {sys.prefix}")
         print("SUCCESS: You're in an isolated environment!\n"
-              "Safe to install packages without affecting\n"
+              "Safe to install packages without affecting"
               "the global system")
         print()
         print(f"Package installation path: {site.getsitepackages()[0]}")
