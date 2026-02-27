@@ -12,7 +12,7 @@ def load_configuration():
         "DATABASE_URL": os.getenv("DATABASE_URL"),
         "API_KEY": os.getenv("API_KEY"),
         "LOG_LEVEL": os.getenv("LOG_LEVEL"),
-        "ZION_ENDPOINT": os.getenv("ZION_ENDPOINT"),
+        "ZION_ENDPOINT": os.getenv("ZION_ENDPOINT")
     }
 
     return config
