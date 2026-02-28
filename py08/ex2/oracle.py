@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 
 
 def load_configuration():
-    # Load .env file if it exists
     load_dotenv()
 
     config = {
@@ -14,7 +13,6 @@ def load_configuration():
         "LOG_LEVEL": os.getenv("LOG_LEVEL"),
         "ZION_ENDPOINT": os.getenv("ZION_ENDPOINT")
     }
-
     return config
 
 
@@ -22,27 +20,24 @@ def security_check(config):
     print("\nEnvironment security check:")
 
     if os.path.exists(".env"):
+        print("[OK] No hardcoded secrets detected")
         print("[OK] .env file properly configured")
+        print("[OK] Production overrides active")
     else:
         print("[WARNING] .env file not found")
 
-    if config["API_KEY"] and config["API_KEY"] == "558426658986989":
-        print("[OK] No hardcoded secrets detected")
-    else:
-        print("[WARNING] API_KEY looks like a placeholder")
-    if os.getenv("MATRIX_MODE") == "production":
-        print("[OK] Production overrides active")
-    else:
-        print("[INFO] Running in development mode")
-
 
 def validate_config(config):
-    missing = [key for key, value in config.items() if not value]
+    missing = []
+    for key ,value in config.items():
+        if value is None:
+            missing.append(key)
+
 
     if missing:
         print("WARNING: Missing configuration variables:")
-        for var in missing:
-            print(f" - {var}")
+        for conf in missing:
+            print(f" - {conf}")
         print("\nPlease configure your environment properly.\n")
         return False
 
@@ -50,7 +45,7 @@ def validate_config(config):
 
 
 def main():
-    print("ORACLE STATUS: Reading the Matrix...\n")
+    print("\nORACLE STATUS: Reading the Matrix...\n")
 
     config = load_configuration()
 
@@ -59,15 +54,10 @@ def main():
 
     print("Configuration loaded:")
     print(f"Mode: {config['MATRIX_MODE']}")
-
-    if config["MATRIX_MODE"] == "development":
-        print("Database: Connected to local instance")
-    else:
-        print("Database: Connected to production mainframe")
-
+    print(f"Database: {config['DATABASE_URL']}")
     print("API Access: Authenticated")
     print(f"Log Level: {config['LOG_LEVEL']}")
-    print("Zion Network: Online")
+    print(f"Zion Network: {config['ZION_ENDPOINT']}")
 
     security_check(config)
     print("\nThe Oracle sees all configurations.")

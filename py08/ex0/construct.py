@@ -12,7 +12,7 @@ def main():
         print(f"\nCurrent Python: {sys.executable}")
         print(f"Virtual Environment: {os.path.basename(sys.prefix)}")
         print(f"Environment Path: {sys.prefix}")
-        print("SUCCESS: You're in an isolated environment!\n"
+        print("\nSUCCESS: You're in an isolated environment!\n"
               "Safe to install packages without affecting"
               "the global system")
         print()

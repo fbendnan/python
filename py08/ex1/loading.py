@@ -14,7 +14,6 @@ deps = {
     "pandas": " Data manipulation",
     "requests": "Network access",
     "matplotlib": "Visualization",
-    "hhhh":"hhh"
 }
 for dep, value in deps.items():
     if check_package(dep):
@@ -25,9 +24,9 @@ for dep, value in deps.items():
         print(f"    pip install {dep} \nor with:\n    poetry add {dep}")
 
 
-
-print("\nAnalyzing Matrix data...")
-print("Processing 1000 data points...")
-print("Generating visualization...")
-print("\nAnalysis complete!\n"
-      "Results saved to: matrix\\analysis.png}")
+if check_package('pandas') and check_package('requests') and check_package('matplotlib'):
+    print("\nAnalyzing Matrix data...")
+    print("Processing 1000 data points...")
+    print("Generating visualization...")
+    print("\nAnalysis complete!\n"
+        "Results saved to: matrix\\analysis.png}")
