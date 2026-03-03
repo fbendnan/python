@@ -32,4 +32,27 @@ class SpaceMission(BaseModel):
 
     @model_validator(mode='after')
     def validate(self):
-        ...
+        if not self.mission_id.startswith("M"):
+            raise ValueError("Mission ID must start with M")
+        
+        if not any (
+            crew_member.rank in [Rank.captain or Rank.commander] 
+            for crew_member in  self.crew):
+            raise ValueError("Must have at least one Commander or Captain")
+        
+        if self.duration_days > 365:
+            experienced = [crew_member.years_experience > 5 for crew_member in self.crew]
+            print(experienced)
+
+
+
+def main():
+    crew1 = CrewMember(
+        member_id="M1111", name="fatima", rank=Rank.captain, age=21,
+        specialization="software eng", years_experience=5
+        )
+    
+    space = SpaceMission(
+        
+    )
+    
