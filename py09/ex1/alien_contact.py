@@ -51,9 +51,9 @@ def main() -> None:
         print("Valid contact report:")
         valid_contact = AlienContact(
             contact_id="AC_2024_001",
-            timestamp="2024-05-15T14:00:00",
+            timestamp=datetime.now(),
             location="Area 51, Nevada",
-            contact_type="radio",
+            contact_type=ContactType.radio,
             signal_strength=8.5,
             duration_minutes=45,
             witness_count=5,
@@ -73,9 +73,9 @@ def main() -> None:
         print("Expected validation error:")
         invalid_contact = AlienContact(
             contact_id="AC_2024_002",
-            timestamp="2024-05-15T14:30:00",
+            timestamp=datetime.now(),
             location="Area 52, Nevada",
-            contact_type="telepathic",
+            contact_type=ContactType.telepathic,
             signal_strength=5.0,
             duration_minutes=45,
             witness_count=2,
