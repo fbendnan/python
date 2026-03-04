@@ -3,11 +3,13 @@ from pydantic import BaseModel, Field, ValidationError, model_validator
 from datetime import datetime
 from typing import Optional
 
+
 class ContactType(Enum):
     radio = "radio"
     visual = "visual"
     physical = "physical"
     telepathic = "telepathic"
+
 
 class AlienContact(BaseModel):
     contact_id: str = Field(min_length=5, max_length=15)
@@ -20,31 +22,31 @@ class AlienContact(BaseModel):
     message_received: Optional[str] = Field(None, max_length=500)
     is_verified: bool = Field(default=False)
 
-
     @model_validator(mode='after')
     def validate(self):
         if not self.contact_id.startswith("AC"):
             raise ValueError("Contact ID must start with 'AC'")
-        
+
         if self.contact_type == ContactType.physical and \
            not self.is_verified:
             raise ValueError("Physical contacts must be verified")
-        
+
         if self.contact_type == ContactType.telepathic and \
            self.witness_count < 3:
             raise ValueError(
                 "Telepathic contacts require at least 3 witnesses")
-        
+
         if self.signal_strength > 7.0 and not self.message_received:
-            raise ValueError("Strong signals (>7.0) must include a received message")
-        
+            raise ValueError(
+                "Strong signals (>7.0) must include a received message"
+                )
+
         return self
-    
+
 
 def main():
     print("Alien Contact Log Validation")
     print("="*37)
-
     try:
         print("Valid contact report:")
         valid_contact = AlienContact(
@@ -80,10 +82,11 @@ def main():
             message_received=None,
             is_verified=True
         )
-        
+        print(invalid_contact)
+
     except ValidationError as e:
         print(e.errors()[0]['msg'].strip('Value error, '))
 
+
 if __name__ == "__main__":
     main()
-

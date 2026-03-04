@@ -1,7 +1,7 @@
 from enum import Enum
 from pydantic import BaseModel, Field, ValidationError, model_validator
 from datetime import datetime
-from typing import Optional, List
+from typing import List
 
 
 class Rank(Enum):
@@ -44,11 +44,15 @@ class SpaceMission(BaseModel):
             raise ValueError("Must have at least one Commander or Captain")
 
         if self.duration_days > 365:
-            experienced = [crew_member for crew_member in self.crew if crew_member.years_experience > 5]
+            experienced = [crew_member for crew_member in self.crew
+                           if crew_member.years_experience > 5]
             if len(experienced) < len(self.crew)/2:
-                raise ValueError("Long missions (> 365 days) need 50% experienced crew (5+ years)")
+                raise ValueError(
+                    "Long missions (> 365 days) need 50% "
+                    "experienced crew (5+ years)"
+                    )
 
-        if any (not crew_member.is_active for crew_member in self.crew):
+        if any(not crew_member.is_active for crew_member in self.crew):
             raise ValueError("All crew members must be ACTIVE")
 
         return self
@@ -109,7 +113,8 @@ def main():
 
         for member in mission.crew:
             print(
-                f"- {member.name} ({member.rank.value}) - {member.specialization}"
+                f"- {member.name} ({member.rank.value}) "
+                f"- {member.specialization}"
             )
 
         print("=" * 41)
@@ -144,7 +149,7 @@ def main():
             budget_millions=500.0,
         )
 
-    except Exception as e:
+    except ValidationError as e:
         print(e.errors()[0]['msg'].strip("Value error,"))
 
 
