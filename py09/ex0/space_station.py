@@ -9,7 +9,7 @@ class SpaceStation(BaseModel):
     crew_size: int = Field(ge=1, le=20)
     power_level: float= Field(ge=0.0, le=100.0)
     oxygen_level: float = Field(ge=0.0, le=100.0)
-    last_maintenance: datetime
+    last_maintenance: datetime = Field(default=datetime.now())
     is_operational: bool = Field(default=True)
     notes: Optional[str] = Field(default=None, max_length=200)
 
@@ -24,7 +24,7 @@ def main():
         space_station1 = SpaceStation(
         station_id='ISS001', name='International Space Station',
         crew_size=6, power_level=85.5, oxygen_level=92.3,
-        last_maintenance="2024-03-30T00:00:00", is_operational=True)
+        is_operational=True)
         print(f"ID: {space_station1.station_id}")
         print(f"Name: {space_station1.name}")
         print(f"Crew: {space_station1.crew_size}")
@@ -38,7 +38,8 @@ def main():
         space_station2 = SpaceStation(
         station_id='ISS001', name='International Space Station',
         crew_size=25, power_level=85.5, oxygen_level=92.3,
-        last_maintenance="2024-03-30T00:00:00", is_operational=True)
+        is_operational=True
+        )
 
 
     except ValidationError as e:
