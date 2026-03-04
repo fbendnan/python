@@ -53,7 +53,7 @@ class SpaceMission(BaseModel):
                     )
 
         if any(not crew_member.is_active for crew_member in self.crew):
-            raise ValueError("All crew members must be ACTIVE")
+            raise ValueError("All crew members must be active")
 
         return self
 
@@ -150,7 +150,7 @@ def main() -> None:
         )
 
     except ValidationError as e:
-        print(e.errors()[0]['msg'].strip("Value error,"))
+        print(e.errors()[0]['msg'].removeprefix("Value error, "))
 
 
 main()

@@ -85,7 +85,7 @@ def main() -> None:
         print(invalid_contact)
 
     except ValidationError as e:
-        print(e.errors()[0]['msg'].strip('Value error, '))
+        print(e.errors()[0]['msg'].removeprefix('Value error, '))
 
 
 if __name__ == "__main__":
