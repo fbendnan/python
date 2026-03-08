@@ -1,13 +1,3 @@
-def mage_counter() -> callable:
-    count = 0
-
-    def counter():
-        nonlocal count
-        count += 1
-        return count
-
-    return counter
-
 
 def mage_counter() -> callable:
     count = 0
@@ -37,7 +27,7 @@ def enchantment_factory(enchantment_type: str) -> callable:
 
 
 def memory_vault() -> dict[str, callable]:
-    vault = {}  # private storage
+    vault = {}
 
     def store(key, value):
         vault[key] = value
