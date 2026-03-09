@@ -40,7 +40,9 @@ def retry_spell(max_attempts: int) -> callable:
 
                 except Exception:
                     if attempt < max_attempts:
-                        print(f"Spell failed, retrying... (attempt {attempt}/{max_attempts})")
+                        print(
+                            f"Spell failed, retrying... (attempt {attempt}/{max_attempts})"
+                            )
                     else:
                         return f"Spell casting failed after {max_attempts} attempts"
 
@@ -73,11 +75,10 @@ def main():
     print()
 
     print("Testing MageGuild...")
-    print(MageGuild.validate_mage_name("Gandalf"))
-    print(MageGuild.validate_mage_name("A1"))
-    # print()
-
     guild = MageGuild()
+
+    print(guild.validate_mage_name("Gandalf"))
+    print(guild.validate_mage_name("A1"))
 
     print(guild.cast_spell("Lightning", 15))
     print(guild.cast_spell("Lightning", 5))
