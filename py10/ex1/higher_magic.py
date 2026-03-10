@@ -1,4 +1,7 @@
-def spell_combiner(spell1: callable, spell2: callable) -> callable:
+from typing import Callable
+
+
+def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
     def combined(*args, **kwargs):
         res1 = spell1(*args, **kwargs)
         res2 = spell2(*args, **kwargs)
@@ -7,7 +10,7 @@ def spell_combiner(spell1: callable, spell2: callable) -> callable:
     return combined
 
 
-def power_amplifier(base_spell: callable, multiplier: int) -> callable:
+def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
     def amplified(*args, **kwargs):
         result = base_spell(*args, **kwargs)
         return result * multiplier
@@ -15,17 +18,17 @@ def power_amplifier(base_spell: callable, multiplier: int) -> callable:
     return amplified
 
 
-def conditional_caster(condition: callable, spell: callable) -> callable:
+def conditional_caster(condition: Callable, spell: Callable) -> Callable:
     def caster(*args, **kwargs):
         if condition(*args, **kwargs):
             return spell(*args, **kwargs)
         else:
             return 'Spell fizzled'
-    
+
     return caster
 
 
-def spell_sequence(spells: list[callable]) -> callable:
+def spell_sequence(spells: list[Callable]) -> Callable:
     def caster(*args, **kwargs):
         results = []
 

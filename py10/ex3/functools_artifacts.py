@@ -1,12 +1,13 @@
 from functools import reduce, partial, lru_cache, singledispatch
 from operator import add, mul
+from typing import Callable, Dict
 
 
 def spell_reducer(spells: list[int], operation: str) -> int:
-    operations = {
+    operations: Dict[str, Callable] = {
         "add": add,
         "multiply": mul,
-        "max":max, 
+        "max": max,
         "min": min
     }
 
@@ -16,13 +17,15 @@ def spell_reducer(spells: list[int], operation: str) -> int:
 
     return reduce(op, spells)
 
-def enchanter(power, element, target):
-        return f"{element} enchantment with power {power} on {target}"
 
-def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
-    fire_enchant = partial(base_enchantment ,50, 'fire')
-    ice_enchant = partial(base_enchantment ,50, 'ice')
-    lightning_enchant = partial(base_enchantment ,50, 'lightning')
+def enchanter(power, element, target):
+    return f"{element} enchantment with power {power} on {target}"
+
+
+def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
+    fire_enchant = partial(base_enchantment, 50, 'fire')
+    ice_enchant = partial(base_enchantment, 50, 'ice')
+    lightning_enchant = partial(base_enchantment, 50, 'lightning')
 
     return {
         'ice_enchant': ice_enchant('dragon'),
@@ -30,13 +33,15 @@ def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
         'lightning_enchant': lightning_enchant('dragon')
     }
 
+
 @lru_cache(maxsize=None)
 def memoized_fibonacci(n: int) -> int:
     if n <= 1:
         return n
     return memoized_fibonacci(n-1) + memoized_fibonacci(n-2)
 
-def spell_dispatcher() -> callable:
+
+def spell_dispatcher() -> Callable:
 
     @singledispatch
     def cast_spell(arg):
@@ -56,19 +61,19 @@ def spell_dispatcher() -> callable:
 
     return cast_spell
 
+
 def main():
     spells = [14, 27, 35, 18, 42, 23]
-    print("Testing spell reducer...")
-    print(f"Sum: {spell_reducer(spells, "add")}")
-    print(f"Product: {spell_reducer(spells, "multiply")}")
-    print(f"Max: {spell_reducer(spells, "max")}")
+    print("\nTesting spell reducer...")
+    print(f"Sum: {spell_reducer(spells, 'add')}")
+    print(f"Product: {spell_reducer(spells, 'multiply')}")
+    print(f"Max: {spell_reducer(spells, 'max')}")
 
     print("\nTesting spell reducer...")
     partial_ench = partial_enchanter(enchanter)
     print(partial_ench)
 
     print("\nTesting memoized fibonacci...")
-    
     print(f"Fib(10): {memoized_fibonacci(10)}")
     print(f"Fib(15): {memoized_fibonacci(15)}")
 

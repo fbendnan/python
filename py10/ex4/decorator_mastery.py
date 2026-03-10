@@ -1,7 +1,9 @@
 import time
 from functools import wraps
+from typing import Callable
 
-def spell_timer(func: callable) -> callable:
+
+def spell_timer(func: Callable) -> Callable:
     @wraps(func)
     def wrapper(*args, **kwargs):
         print(f"Casting {func.__name__}...")
@@ -17,7 +19,7 @@ def spell_timer(func: callable) -> callable:
     return wrapper
 
 
-def power_validator(min_power: int) -> callable:
+def power_validator(min_power: int) -> Callable:
     def decorator(func):
         @wraps(func)
         def wrapper(self, spell_name, power, *args, **kwargs):
@@ -29,7 +31,7 @@ def power_validator(min_power: int) -> callable:
     return decorator
 
 
-def retry_spell(max_attempts: int) -> callable:
+def retry_spell(max_attempts: int) -> Callable:
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -41,10 +43,12 @@ def retry_spell(max_attempts: int) -> callable:
                 except Exception:
                     if attempt < max_attempts:
                         print(
-                            f"Spell failed, retrying... (attempt {attempt}/{max_attempts})"
+                            f"Spell failed, retrying... "
+                            f"(attempt {attempt}/{max_attempts})"
                             )
                     else:
-                        return f"Spell casting failed after {max_attempts} attempts"
+                        return (f"Spell casting failed after "
+                                f"{max_attempts} attempts")
 
         return wrapper
     return decorator
